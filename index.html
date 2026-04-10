@@ -405,7 +405,9 @@
                 bottom: 6rem;
                 left: 0;
                 right: 0;
+                pointer-events: none;
             }
+            .center-cluster .scallop-btn { pointer-events: auto; }
             h1 { font-size: 4.5rem; }
             .tagline { font-size: 1rem; }
             .nav-item { font-size: 1.1rem; padding: 1.2rem; }
@@ -695,8 +697,8 @@
 
         // Reparent cards to body so they're free from any container clipping
         cards.forEach(c => {
-            c.style.transition = 'none';
-            c.style.zIndex = '1';
+            c.style.transition = 'opacity 0.3s ease';
+            c.style.zIndex = '8';
             document.body.appendChild(c);
         });
 
@@ -802,6 +804,18 @@
         requestAnimationFrame(tick);
 
     })();
+
+    // Hide floating cards when scrolled past hero
+    if (window.innerWidth <= 600) {
+        const allCards = document.querySelectorAll('.float-card');
+        window.addEventListener('scroll', () => {
+            const pastHero = window.scrollY > window.innerHeight * 0.5;
+            allCards.forEach(c => {
+                c.style.opacity = pastHero ? '0' : '1';
+                c.style.pointerEvents = pastHero ? 'none' : 'auto';
+            });
+        });
+    }
 
     // Click floating card → scroll to matching activity card (works on all screen sizes)
     document.querySelectorAll('.float-card[data-target]').forEach(card => {
