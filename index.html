@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grass | Weekend activities for kids</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --c-bg: #C8E66A;
+            --c-grid: #B5D44A;
+            --c-brand: #1A3A0A;
+            --c-accent: #EF3922;
+            --c-card-dark: #1A3A0A;
+            --c-card-green: #2D8B4E;
+            --c-card-orange: #F46927;
+            --c-card-pink: #FF6B9D;
+            --c-card-light: #FAFAF5;
+            --c-card-yellow: #FFD93D;
+            --c-card-blue: #4ECDC4;
+            --c-card-purple: #9B59B6;
+
+            --f-display: 'Syne', sans-serif;
+            --f-accent: 'Cormorant Garamond', serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--c-bg);
+            color: var(--c-brand);
+            font-family: var(--f-display);
+            min-height: 100vh;
+            width: 100%;
+            position: relative;
+        }
+
+        /* ── Hero Section ── */
+        .hero {
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bg-grid {
+            position: absolute;
+            top: -20%;
+            left: -20%;
+            width: 140%;
+            height: 140%;
+            z-index: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(var(--c-grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--c-grid) 1px, transparent 1px);
+            background-size: 60px 60px;
+            background-position: center center;
+            filter: url(#warp-filter);
+            opacity: 0.7;
+            animation: breathe 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes breathe {
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.05) translate(-1%, -1%); }
+        }
+
+        /* ── Nav ── */
+        nav {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .nav-item {
+            position: absolute;
+            font-family: var(--f-accent);
+            font-style: italic;
+            font-size: 1.5rem;
+            color: var(--c-brand);
+            pointer-events: auto;
+            cursor: pointer;
+            padding: 2rem;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-item:hover { opacity: 0.6; }
+        .nav-item.brand {
+            top: 0; left: 0;
+            font-family: var(--f-display);
+            font-style: normal;
+            font-weight: 800;
+            font-size: 1.6rem;
+            letter-spacing: -0.03em;
+            text-transform: lowercase;
+        }
+        .nav-item.location { top: 0; right: 0; }
+        .nav-item.about { bottom: 0; left: 0; }
+        .nav-item.sources { bottom: 0; right: 0; }
+
+        /* ── Hero Center ── */
+        .hero main {
+            position: relative;
+            z-index: 5;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .center-cluster {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            transform: translateY(-2vh);
+        }
+
+        h1 {
+            font-size: clamp(6rem, 14vw, 14rem);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 0.9;
+            color: var(--c-brand);
+            text-align: center;
+            text-transform: lowercase;
+        }
+
+        .tagline {
+            font-family: var(--f-accent);
+            font-style: italic;
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            color: var(--c-brand);
+            opacity: 0.7;
+            margin-top: -0.5rem;
+        }
+
+        .scallop-btn {
+            position: relative;
+            background: transparent;
+            color: var(--c-brand);
+            font-family: var(--f-display);
+            font-size: 1.1rem;
+            font-weight: 400;
+            padding: 1rem 2.5rem;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            margin-top: 0.5rem;
+        }
+
+        .scallop-svg-wrapper {
+            position: absolute;
+            top: -4px; left: -4px; right: -4px; bottom: -4px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .scallop-btn span {
+            position: relative;
+            z-index: 2;
+        }
+
+        .scallop-btn:hover { transform: scale(1.05); }
+        .scallop-btn:hover path { fill: var(--c-brand); }
+        .scallop-btn:hover span { color: var(--c-bg); }
+
+        /* ── Floating Cards (Hero) ── */
+        .orbit-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            z-index: 2;
+        }
+
+        .float-card {
+            position: absolute;
+            width: 180px;
+            height: 110px;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            margin-top: -55px;
+            margin-left: -90px;
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .float-card .card-emoji { font-size: 2rem; margin-bottom: 4px; }
+        .float-card .card-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            line-height: 1.2;
+        }
+
+        .fc-1 { transform: translate(0px, -300px) rotate(-8deg); background: var(--c-card-yellow); color: var(--c-brand); animation: float 6s ease-in-out infinite alternate; }
+        .fc-2 { transform: translate(240px, -200px) rotate(12deg); background: var(--c-card-orange); color: #fff; animation: float 7s ease-in-out infinite alternate-reverse; }
+        .fc-3 { transform: translate(320px, 30px) rotate(-5deg); background: var(--c-card-dark); color: #fff; animation: float 5s ease-in-out infinite alternate; }
+        .fc-4 { transform: translate(220px, 240px) rotate(18deg); background: var(--c-card-pink); color: #fff; animation: float 8s ease-in-out infinite alternate-reverse; }
+        .fc-5 { transform: translate(-20px, 310px) rotate(-12deg); background: var(--c-card-blue); color: var(--c-brand); animation: float 6s ease-in-out infinite alternate; }
+        .fc-6 { transform: translate(-250px, 220px) rotate(8deg); background: var(--c-card-light); color: var(--c-brand); animation: float 7s ease-in-out infinite alternate-reverse; }
+        .fc-7 { transform: translate(-330px, 10px) rotate(-15deg); background: var(--c-card-purple); color: #fff; animation: float 5s ease-in-out infinite alternate; }
+        .fc-8 { transform: translate(-230px, -210px) rotate(6deg); background: var(--c-card-green); color: #fff; animation: float 8s ease-in-out infinite alternate-reverse; }
+
+        .float-card:hover.fc-1 { transform: translate(0px, -300px) rotate(0deg) scale(1.15); }
+        .float-card:hover.fc-2 { transform: translate(240px, -200px) rotate(0deg) scale(1.15); }
+        .float-card:hover.fc-3 { transform: translate(320px, 30px) rotate(0deg) scale(1.15); }
+        .float-card:hover.fc-4 { transform: translate(220px, 240px) rotate(0deg) scale(1.15); }
+        .float-card:hover.fc-5 { transform: translate(-20px, 310px) rotate(0deg) scale(1.15); }
+        .float-card:hover.fc-6 { transform: translate(-250px, 220px) rotate(0deg) scale(1.15); }
+        .float-card:hover.fc-7 { transform: translate(-330px, 10px) rotate(0deg) scale(1.15); }
+        .float-card:hover.fc-8 { transform: translate(-230px, -210px) rotate(0deg) scale(1.15); }
+
+        @keyframes float {
+            0% { margin-top: -55px; }
+            100% { margin-top: -70px; }
+        }
+
+        /* ── Activities Section ── */
+        .activities-section {
+            position: relative;
+            z-index: 5;
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+
+        .section-header .date-label {
+            font-family: var(--f-accent);
+            font-style: italic;
+            font-size: 1.4rem;
+            opacity: 0.6;
+        }
+
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .activity-card {
+            background: var(--c-card-light);
+            border-radius: 16px;
+            padding: 1.8rem;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 12px 40px rgba(26, 58, 10, 0.12);
+        }
+
+        .activity-card .card-tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 0.3rem 0.8rem;
+            border-radius: 100px;
+            margin-bottom: 1rem;
+        }
+
+        .tag-free { background: var(--c-card-yellow); color: var(--c-brand); }
+        .tag-event { background: var(--c-card-orange); color: #fff; }
+        .tag-outdoors { background: var(--c-card-green); color: #fff; }
+        .tag-arts { background: var(--c-card-purple); color: #fff; }
+        .tag-attraction { background: var(--c-card-blue); color: var(--c-brand); }
+        .tag-workshop { background: var(--c-card-pink); color: #fff; }
+
+        .activity-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 0.6rem;
+            letter-spacing: -0.01em;
+        }
+
+        .activity-card .card-meta {
+            font-size: 0.85rem;
+            opacity: 0.6;
+            line-height: 1.5;
+            margin-bottom: 0.8rem;
+        }
+
+        .activity-card .card-desc {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            opacity: 0.8;
+        }
+
+        .activity-card .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(26, 58, 10, 0.08);
+        }
+
+        .card-footer .age-badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            background: var(--c-bg);
+            color: var(--c-brand);
+        }
+
+        .card-footer .price {
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .price.free { color: var(--c-card-green); }
+
+        .card-footer .source {
+            font-size: 0.7rem;
+            opacity: 0.4;
+            font-family: var(--f-accent);
+            font-style: italic;
+        }
+
+        /* ── Scroll indicator ── */
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            font-family: var(--f-accent);
+            font-style: italic;
+            font-size: 1rem;
+            opacity: 0.5;
+            animation: bounce 2s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(8px); }
+        }
+
+        /* ── Footer ── */
+        footer {
+            padding: 4rem 2rem;
+            text-align: center;
+            font-family: var(--f-accent);
+            font-style: italic;
+            font-size: 1.1rem;
+            opacity: 0.5;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 900px) {
+            .orbit-container { transform: scale(0.55); }
+            .activity-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 600px) {
+            .center-cluster {
+                transform: none;
+                position: absolute;
+                bottom: 6rem;
+                left: 0;
+                right: 0;
+            }
+            h1 { font-size: 4.5rem; }
+            .tagline { font-size: 1rem; }
+            .nav-item { font-size: 1.1rem; padding: 1.2rem; }
+            .bg-grid { background-size: 40px 40px; }
+            .activities-section { padding: 4rem 1.2rem; }
+
+            /* Cards float freely — positioned by JS */
+            .orbit-container {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+            .float-card {
+                width: 170px;
+                height: 105px;
+                padding: 12px;
+                margin: 0;
+                transition: box-shadow 0.3s ease;
+            }
+            .float-card .card-emoji { font-size: 1.8rem; }
+            .float-card .card-label { font-size: 0.6rem; }
+            .fc-1, .fc-2, .fc-3, .fc-4, .fc-5, .fc-6, .fc-7, .fc-8 {
+                transform: none;
+                animation: none;
+            }
+            .float-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.15); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SVG Filters -->
+    <svg width="0" height="0" style="position:absolute; z-index:-1;">
+        <defs>
+            <filter id="warp-filter" x="-20%" y="-20%" width="140%" height="140%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.003" numOctaves="2" result="noise"></feTurbulence>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="80" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+            </filter>
+        </defs>
+    </svg>
+
+    <!-- ════ HERO ════ -->
+    <section class="hero">
+        <div class="bg-grid"></div>
+
+        <nav>
+            <div class="nav-item brand">grass</div>
+            <div class="nav-item location">Singapore</div>
+            <div class="nav-item about">About</div>
+            <div class="nav-item sources">Sources</div>
+        </nav>
+
+        <main>
+            <div class="orbit-container">
+                <div class="float-card fc-1" data-target="robofest">
+                    <div class="card-emoji">🤖</div>
+                    <div class="card-label">RoboFest 2026</div>
+                </div>
+                <div class="float-card fc-2" data-target="artbox">
+                    <div class="card-emoji">🎨</div>
+                    <div class="card-label">ARTBOX Singapore</div>
+                </div>
+                <div class="float-card fc-3" data-target="exploria">
+                    <div class="card-emoji">🦕</div>
+                    <div class="card-label">Exploria Mandai</div>
+                </div>
+                <div class="float-card fc-4" data-target="tesla">
+                    <div class="card-emoji">🚗</div>
+                    <div class="card-label">Tesla Junior Driving</div>
+                </div>
+                <div class="float-card fc-5" data-target="bears">
+                    <div class="card-emoji">🌿</div>
+                    <div class="card-label">Botanic Gardens</div>
+                </div>
+                <div class="float-card fc-6" data-target="pororo">
+                    <div class="card-emoji">🐣</div>
+                    <div class="card-label">Easter Egg Hunts</div>
+                </div>
+                <div class="float-card fc-7" data-target="library">
+                    <div class="card-emoji">📚</div>
+                    <div class="card-label">Library Storytelling</div>
+                </div>
+                <div class="float-card fc-8" data-target="firestation">
+                    <div class="card-emoji">🔥</div>
+                    <div class="card-label">Fire Station Open House</div>
+                </div>
+            </div>
+
+            <div class="center-cluster">
+                <h1>grass.</h1>
+                <div class="tagline">weekend activities for little humans</div>
+                <button class="scallop-btn" onclick="document.getElementById('activities').scrollIntoView({behavior:'smooth'})">
+                    <div class="scallop-svg-wrapper">
+                        <svg width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 180 60">
+                            <path d="
+                                M 30 2
+                                Q 40 5 50 2 Q 60 -1 70 2 Q 80 5 90 2 Q 100 -1 110 2 Q 120 5 130 2 Q 140 -1 150 2
+                                A 28 28 0 0 1 178 30
+                                A 28 28 0 0 1 150 58
+                                Q 140 61 130 58 Q 120 55 110 58 Q 100 61 90 58 Q 80 55 70 58 Q 60 61 50 58 Q 40 55 30 58
+                                A 28 28 0 0 1 2 30
+                                A 28 28 0 0 1 30 2 Z" fill="none" stroke="var(--c-brand)" stroke-width="1.5" stroke-linejoin="round" style="transition: fill 0.3s ease;"></path>
+                        </svg>
+                    </div>
+                    <span>This weekend &darr;</span>
+                </button>
+            </div>
+        </main>
+
+        <div class="scroll-hint">&darr; scroll for activities</div>
+    </section>
+
+    <!-- ════ ACTIVITIES ════ -->
+    <section class="activities-section" id="activities">
+        <div class="section-header">
+            <h2>This weekend</h2>
+            <span class="date-label">10 &ndash; 12 April 2026</span>
+        </div>
+
+        <div class="activity-grid">
+
+            <div class="activity-card" id="artbox">
+                <span class="card-tag tag-event">Event</span>
+                <h3>ARTBOX Singapore 2026</h3>
+                <div class="card-meta">Singapore Expo Hall 3 &middot; 10&ndash;12 Apr &middot; 12pm&ndash;11pm</div>
+                <div class="card-desc">Over 250 local and regional vendors, interactive art by Wiggle Wiggle, retro and modern gaming zones, kid-friendly workshops, and live performances.</div>
+                <div class="card-footer">
+                    <span class="age-badge">All ages</span>
+                    <span class="price">From $5</span>
+                    <span class="source">sassymamasg</span>
+                </div>
+            </div>
+
+            <div class="activity-card" id="robofest">
+                <span class="card-tag tag-workshop">Workshop</span>
+                <h3>RoboFest 2026</h3>
+                <div class="card-meta">Various venues &middot; April 2026</div>
+                <div class="card-desc">Singapore's first festival dedicated to robotics and AI. Kids can touch, play with, and program real robots, including Robot Boxing and LEGO Education kits.</div>
+                <div class="card-footer">
+                    <span class="age-badge">Ages 4+</span>
+                    <span class="price">Varies</span>
+                    <span class="source">honeykidsasia</span>
+                </div>
+            </div>
+
+            <div class="activity-card" id="tesla">
+                <span class="card-tag tag-free">Free</span>
+                <h3>Tesla Junior Driving School</h3>
+                <div class="card-meta">FRx stores &middot; This weekend</div>
+                <div class="card-desc">Kids hop onto mini-EVs and conquer a mini-driving circuit. Free with minimum $30 spend at participating FRx stores.</div>
+                <div class="card-footer">
+                    <span class="age-badge">Ages 3&ndash;9</span>
+                    <span class="price free">Free*</span>
+                    <span class="source">thesmartlocal</span>
+                </div>
+            </div>
+
+            <div class="activity-card" id="bears">
+                <span class="card-tag tag-outdoors">Outdoors</span>
+                <h3>Bears, Beats &amp; Blooms</h3>
+                <div class="card-meta">Singapore Botanic Gardens &middot; 11 Apr &middot; 9am&ndash;11am</div>
+                <div class="card-desc">Music, storytelling, and hands-on activities. Kids join a nature treasure hunt, create mini flower baskets, and build eco-friendly instruments from recycled materials.</div>
+                <div class="card-footer">
+                    <span class="age-badge">Ages 2&ndash;6</span>
+                    <span class="price free">Free</span>
+                    <span class="source">sunnycitykids</span>
+                </div>
+            </div>
+
+            <div class="activity-card" id="exploria">
+                <span class="card-tag tag-attraction">Attraction</span>
+                <h3>Exploria at Mandai Wildlife Reserve</h3>
+                <div class="card-meta">Mandai Wildlife Reserve &middot; Ongoing</div>
+                <div class="card-desc">10,000 sqm multimedia indoor attraction. Walk among towering dinosaurs, experience a monsoon storm, and peer into microbial worlds under magnified projections.</div>
+                <div class="card-footer">
+                    <span class="age-badge">All ages</span>
+                    <span class="price">Ticketed</span>
+                    <span class="source">honeykidsasia</span>
+                </div>
+            </div>
+
+            <div class="activity-card">
+                <span class="card-tag tag-arts">Arts</span>
+                <h3>Demon Slayer Exhibition</h3>
+                <div class="card-meta">Singapore &middot; Until 12 Apr 2026</div>
+                <div class="card-desc">The only Southeast Asian stop this year. 21,000 sq ft across two floors of immersive Kimetsu no Yaiba experience. Last chance this weekend!</div>
+                <div class="card-footer">
+                    <span class="age-badge">Ages 6+</span>
+                    <span class="price">Ticketed</span>
+                    <span class="source">bykido</span>
+                </div>
+            </div>
+
+            <div class="activity-card" id="pororo">
+                <span class="card-tag tag-free">Free</span>
+                <h3>Pororo Park Easter Egg Hunt</h3>
+                <div class="card-meta">Pororo Park &amp; Tayo Station &middot; April 2026</div>
+                <div class="card-desc">Easter makeover with hands-on egg decorating workshops, exciting egg hunts, and the Great Golden Egg Quest for little ones.</div>
+                <div class="card-footer">
+                    <span class="age-badge">Ages 2&ndash;8</span>
+                    <span class="price">With admission</span>
+                    <span class="source">sassymamasg</span>
+                </div>
+            </div>
+
+            <div class="activity-card" id="firestation">
+                <span class="card-tag tag-free">Free</span>
+                <h3>Fire Station Open House</h3>
+                <div class="card-meta">Selected stations &middot; Saturdays</div>
+                <div class="card-desc">Meet firefighters, learn about emergency response, and board SCDF vehicles. A free recurring weekend staple that kids love.</div>
+                <div class="card-footer">
+                    <span class="age-badge">All ages</span>
+                    <span class="price free">Free</span>
+                    <span class="source">bykido</span>
+                </div>
+            </div>
+
+            <div class="activity-card" id="library">
+                <span class="card-tag tag-free">Free</span>
+                <h3>Bukit Batok Library</h3>
+                <div class="card-meta">Bukit Batok &middot; Saturdays 11:30am</div>
+                <div class="card-desc">Newly reopened with an interior inspired by Little Guilin quarry. Storytelling sessions every Saturday for little ones, plus interactive exhibits.</div>
+                <div class="card-footer">
+                    <span class="age-badge">Ages 4&ndash;6</span>
+                    <span class="price free">Free</span>
+                    <span class="source">littledayout</span>
+                </div>
+            </div>
+
+            <div class="activity-card">
+                <span class="card-tag tag-outdoors">Outdoors</span>
+                <h3>Bird Paradise</h3>
+                <div class="card-meta">Mandai &middot; This weekend</div>
+                <div class="card-desc">Free entry this weekend with Easter activities including digital and physical egg hunts to win prizes.</div>
+                <div class="card-footer">
+                    <span class="age-badge">All ages</span>
+                    <span class="price free">Free entry</span>
+                    <span class="source">thesmartlocal</span>
+                </div>
+            </div>
+
+            <div class="activity-card">
+                <span class="card-tag tag-attraction">Attraction</span>
+                <h3>Temasek Shophouse</h3>
+                <div class="card-meta">Orchard area &middot; Ongoing</div>
+                <div class="card-desc">Newly revamped with a community garden, interactive kids' rock wall, and indoor hangout spots with coffee for parents.</div>
+                <div class="card-footer">
+                    <span class="age-badge">All ages</span>
+                    <span class="price free">Free</span>
+                    <span class="source">thesmartlocal</span>
+                </div>
+            </div>
+
+            <div class="activity-card">
+                <span class="card-tag tag-outdoors">Outdoors</span>
+                <h3>City Square Mall Playground</h3>
+                <div class="card-meta">City Square Mall &middot; Ongoing</div>
+                <div class="card-desc">New botanical-themed outdoor playground with climbing nets, slides, flower towers, and sensory elements for kids of all ages.</div>
+                <div class="card-footer">
+                    <span class="age-badge">All ages</span>
+                    <span class="price free">Free</span>
+                    <span class="source">sunnycitykids</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        grass &middot; touch grass this weekend &middot; singapore
+    </footer>
+
+    <script>
+    (function() {
+        if (window.innerWidth > 600) return;
+
+        const cards = document.querySelectorAll('.float-card');
+        const cardW = 170, cardH = 105;
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        const minX = 10;
+        const maxX = vw - cardW - 10;
+        const minY = 50;
+        const maxY = vh * 0.7 - cardH;
+
+        // Reparent cards to body so they're free from any container clipping
+        cards.forEach(c => {
+            c.style.transition = 'none';
+            c.style.zIndex = '1';
+            document.body.appendChild(c);
+        });
+
+        const atoms = [];
+
+        // Place cards without overlap
+        function overlaps(x, y, placed) {
+            const pad = 12;
+            for (const p of placed) {
+                if (Math.abs(x - p.x) < cardW + pad && Math.abs(y - p.y) < cardH + pad) return true;
+            }
+            return false;
+        }
+
+        cards.forEach((card) => {
+            let x, y, tries = 0;
+            do {
+                x = minX + Math.random() * (maxX - minX);
+                y = minY + Math.random() * (maxY - minY);
+                tries++;
+            } while (overlaps(x, y, atoms) && tries < 200);
+
+            const speed = 0.12 + Math.random() * 0.18;
+            const angle = Math.random() * Math.PI * 2;
+            const rot = -15 + Math.random() * 30;
+
+            card.style.position = 'fixed';
+            card.style.left = x + 'px';
+            card.style.top = y + 'px';
+            card.style.transform = 'rotate(' + rot + 'deg)';
+            card.style.willChange = 'transform';
+
+            atoms.push({
+                el: card,
+                x, y,
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed,
+                rot,
+                rotSpeed: (Math.random() - 0.5) * 0.06,
+                w: cardW, h: cardH
+            });
+        });
+
+        // Collision response — push cards apart
+        function resolveCollisions() {
+            for (let i = 0; i < atoms.length; i++) {
+                for (let j = i + 1; j < atoms.length; j++) {
+                    const a = atoms[i], b = atoms[j];
+                    const dx = (a.x + cardW/2) - (b.x + cardW/2);
+                    const dy = (a.y + cardH/2) - (b.y + cardH/2);
+                    const overlapX = (cardW + 8) - Math.abs(dx);
+                    const overlapY = (cardH + 8) - Math.abs(dy);
+
+                    if (overlapX > 0 && overlapY > 0) {
+                        // Push apart along the smaller overlap axis
+                        if (overlapX < overlapY) {
+                            const sign = dx > 0 ? 1 : -1;
+                            a.x += sign * overlapX * 0.5;
+                            b.x -= sign * overlapX * 0.5;
+                            // Swap x velocities
+                            const tmp = a.vx; a.vx = b.vx; b.vx = tmp;
+                        } else {
+                            const sign = dy > 0 ? 1 : -1;
+                            a.y += sign * overlapY * 0.5;
+                            b.y -= sign * overlapY * 0.5;
+                            const tmp = a.vy; a.vy = b.vy; b.vy = tmp;
+                        }
+                    }
+                }
+            }
+        }
+
+        function tick() {
+            atoms.forEach(a => {
+                a.x += a.vx;
+                a.y += a.vy;
+                a.rot += a.rotSpeed;
+                // Clamp rotation to stay readable
+                if (a.rot > 20) { a.rot = 20; a.rotSpeed *= -1; }
+                if (a.rot < -20) { a.rot = -20; a.rotSpeed *= -1; }
+
+                // Bounce off walls
+                if (a.x <= minX) { a.vx = Math.abs(a.vx); a.x = minX; }
+                if (a.x >= maxX) { a.vx = -Math.abs(a.vx); a.x = maxX; }
+                if (a.y <= minY) { a.vy = Math.abs(a.vy); a.y = minY; }
+                if (a.y >= maxY) { a.vy = -Math.abs(a.vy); a.y = maxY; }
+            });
+
+            resolveCollisions();
+
+            // Clamp after collision
+            atoms.forEach(a => {
+                a.x = Math.max(minX, Math.min(maxX, a.x));
+                a.y = Math.max(minY, Math.min(maxY, a.y));
+                a.el.style.left = a.x + 'px';
+                a.el.style.top = a.y + 'px';
+                a.el.style.transform = 'rotate(' + a.rot + 'deg)';
+            });
+
+            requestAnimationFrame(tick);
+        }
+
+        requestAnimationFrame(tick);
+
+    })();
+
+    // Click floating card → scroll to matching activity card (works on all screen sizes)
+    document.querySelectorAll('.float-card[data-target]').forEach(card => {
+        card.addEventListener('click', () => {
+            const target = document.getElementById(card.getAttribute('data-target'));
+            if (!target) return;
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            target.style.boxShadow = '0 0 0 3px var(--c-brand)';
+            setTimeout(() => { target.style.boxShadow = ''; }, 1500);
+        });
+    });
+    </script>
+</body>
+</html>
