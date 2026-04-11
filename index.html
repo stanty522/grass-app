@@ -270,11 +270,45 @@
             opacity: 0.6;
         }
 
+        /* ── Filter bar ── */
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .filter-chip {
+            background: transparent;
+            border: 1.5px solid var(--c-brand);
+            color: var(--c-brand);
+            font-family: var(--f-display);
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 0.55rem 1.2rem;
+            border-radius: 100px;
+            cursor: pointer;
+            text-transform: lowercase;
+            letter-spacing: 0.01em;
+            transition: all 0.2s ease;
+        }
+
+        .filter-chip:hover {
+            background: rgba(26, 58, 10, 0.08);
+        }
+
+        .filter-chip.active {
+            background: var(--c-brand);
+            color: var(--c-bg);
+        }
+
         .activity-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 1.5rem;
         }
+
+        .activity-card.hidden { display: none; }
 
         .activity-card {
             background: var(--c-card-light);
@@ -526,12 +560,24 @@
     <section class="activities-section" id="activities">
         <div class="section-header">
             <h2>This weekend</h2>
-            <span class="date-label">10 &ndash; 12 April 2026</span>
+            <span class="date-label">11 &ndash; 12 April 2026</span>
+        </div>
+
+        <div class="filter-bar">
+            <button class="filter-chip active" data-filter="all">all</button>
+            <button class="filter-chip" data-filter="free">free</button>
+            <button class="filter-chip" data-filter="toddlers">toddlers</button>
+            <button class="filter-chip" data-filter="kids">big kids</button>
+            <button class="filter-chip" data-filter="outdoors">outdoors</button>
+            <button class="filter-chip" data-filter="indoor">indoor</button>
+            <button class="filter-chip" data-filter="ongoing">ongoing</button>
+            <button class="filter-chip" data-filter="weekend-only">weekend only</button>
+            <button class="filter-chip" data-filter="last-chance">last chance</button>
         </div>
 
         <div class="activity-grid">
 
-            <div class="activity-card" id="artbox">
+            <div class="activity-card" id="artbox" data-tags="weekend-only kids indoor last-chance">
                 <span class="card-tag tag-event">Event</span>
                 <h3>ARTBOX Singapore 2026</h3>
                 <div class="card-meta">Singapore Expo Hall 3 &middot; 10&ndash;12 Apr &middot; 12pm&ndash;11pm</div>
@@ -543,7 +589,7 @@
                 </div>
             </div>
 
-            <div class="activity-card" id="robofest">
+            <div class="activity-card" id="robofest" data-tags="kids indoor weekend-only">
                 <span class="card-tag tag-workshop">Workshop</span>
                 <h3>RoboFest 2026</h3>
                 <div class="card-meta">Various venues &middot; April 2026</div>
@@ -555,7 +601,7 @@
                 </div>
             </div>
 
-            <div class="activity-card" id="tesla">
+            <div class="activity-card" id="tesla" data-tags="free toddlers kids indoor weekend-only">
                 <span class="card-tag tag-free">Free</span>
                 <h3>Tesla Junior Driving School</h3>
                 <div class="card-meta">FRx stores &middot; This weekend</div>
@@ -567,7 +613,7 @@
                 </div>
             </div>
 
-            <div class="activity-card" id="bears">
+            <div class="activity-card" id="bears" data-tags="free toddlers outdoors weekend-only">
                 <span class="card-tag tag-outdoors">Outdoors</span>
                 <h3>Bears, Beats &amp; Blooms</h3>
                 <div class="card-meta">Singapore Botanic Gardens &middot; 11 Apr &middot; 9am&ndash;11am</div>
@@ -579,7 +625,7 @@
                 </div>
             </div>
 
-            <div class="activity-card" id="exploria">
+            <div class="activity-card" id="exploria" data-tags="toddlers kids indoor ongoing">
                 <span class="card-tag tag-attraction">Attraction</span>
                 <h3>Exploria at Mandai Wildlife Reserve</h3>
                 <div class="card-meta">Mandai Wildlife Reserve &middot; Ongoing</div>
@@ -591,7 +637,7 @@
                 </div>
             </div>
 
-            <div class="activity-card">
+            <div class="activity-card" data-tags="kids indoor last-chance weekend-only">
                 <span class="card-tag tag-arts">Arts</span>
                 <h3>Demon Slayer Exhibition</h3>
                 <div class="card-meta">Singapore &middot; Until 12 Apr 2026</div>
@@ -603,7 +649,7 @@
                 </div>
             </div>
 
-            <div class="activity-card" id="pororo">
+            <div class="activity-card" id="pororo" data-tags="toddlers indoor weekend-only">
                 <span class="card-tag tag-free">Free</span>
                 <h3>Pororo Park Easter Egg Hunt</h3>
                 <div class="card-meta">Pororo Park &amp; Tayo Station &middot; April 2026</div>
@@ -615,7 +661,7 @@
                 </div>
             </div>
 
-            <div class="activity-card" id="firestation">
+            <div class="activity-card" id="firestation" data-tags="free toddlers kids ongoing">
                 <span class="card-tag tag-free">Free</span>
                 <h3>Fire Station Open House</h3>
                 <div class="card-meta">Selected stations &middot; Saturdays</div>
@@ -627,7 +673,7 @@
                 </div>
             </div>
 
-            <div class="activity-card" id="library">
+            <div class="activity-card" id="library" data-tags="free toddlers indoor ongoing">
                 <span class="card-tag tag-free">Free</span>
                 <h3>Bukit Batok Library</h3>
                 <div class="card-meta">Bukit Batok &middot; Saturdays 11:30am</div>
@@ -639,7 +685,7 @@
                 </div>
             </div>
 
-            <div class="activity-card">
+            <div class="activity-card" data-tags="free toddlers kids outdoors weekend-only">
                 <span class="card-tag tag-outdoors">Outdoors</span>
                 <h3>Bird Paradise</h3>
                 <div class="card-meta">Mandai &middot; This weekend</div>
@@ -651,7 +697,7 @@
                 </div>
             </div>
 
-            <div class="activity-card">
+            <div class="activity-card" data-tags="free toddlers kids indoor ongoing">
                 <span class="card-tag tag-attraction">Attraction</span>
                 <h3>Temasek Shophouse</h3>
                 <div class="card-meta">Orchard area &middot; Ongoing</div>
@@ -663,7 +709,7 @@
                 </div>
             </div>
 
-            <div class="activity-card">
+            <div class="activity-card" data-tags="free toddlers kids outdoors ongoing">
                 <span class="card-tag tag-outdoors">Outdoors</span>
                 <h3>City Square Mall Playground</h3>
                 <div class="card-meta">City Square Mall &middot; Ongoing</div>
@@ -672,6 +718,126 @@
                     <span class="age-badge">All ages</span>
                     <span class="price free">Free</span>
                     <span class="source">sunnycitykids</span>
+                </div>
+            </div>
+
+            <div class="activity-card" data-tags="toddlers kids indoor ongoing">
+                <span class="card-tag tag-attraction">Attraction</span>
+                <h3>Curiosity Cove</h3>
+                <div class="card-meta">Mandai Wildlife East &middot; Ongoing</div>
+                <div class="card-desc">Indoor playscape with nature-inspired environments, hands-on digital play elements, and immersive exhibits designed for curious little explorers.</div>
+                <div class="card-footer">
+                    <span class="age-badge">Ages 3&ndash;12</span>
+                    <span class="price">Ticketed</span>
+                    <span class="source">mandai.com</span>
+                </div>
+            </div>
+
+            <div class="activity-card" data-tags="toddlers kids indoor ongoing">
+                <span class="card-tag tag-workshop">Play</span>
+                <h3>Amazonia Singapore</h3>
+                <div class="card-meta">Great World &middot; Ongoing</div>
+                <div class="card-desc">Jungle-themed indoor playground with a separated toddler soft-play area featuring a mini slide, ball pit, interactive play panels, and swings.</div>
+                <div class="card-footer">
+                    <span class="age-badge">Ages 1&ndash;12</span>
+                    <span class="price">From $22</span>
+                    <span class="source">amazoniafun</span>
+                </div>
+            </div>
+
+            <div class="activity-card" data-tags="toddlers indoor ongoing">
+                <span class="card-tag tag-workshop">Play</span>
+                <h3>Little Bear's House</h3>
+                <div class="card-meta">Serangoon Gardens &middot; Ongoing</div>
+                <div class="card-desc">Geared toward the littlest ones with high-quality wooden toys and a dedicated toddler area for babies under 18 months. Quiet, cozy, and calm.</div>
+                <div class="card-footer">
+                    <span class="age-badge">Ages 0&ndash;5</span>
+                    <span class="price">From $18</span>
+                    <span class="source">sassymamasg</span>
+                </div>
+            </div>
+
+            <div class="activity-card" data-tags="kids indoor ongoing">
+                <span class="card-tag tag-attraction">Attraction</span>
+                <h3>Canopy Park at Jewel</h3>
+                <div class="card-meta">Jewel Changi Airport &middot; Ongoing</div>
+                <div class="card-desc">14,000 sqm wonderland with a 40-metre indoor waterfall, mirror maze, sky nets, climbing nets, hedge mazes, and bouncing platforms.</div>
+                <div class="card-footer">
+                    <span class="age-badge">Ages 5+</span>
+                    <span class="price">From $8</span>
+                    <span class="source">jewelchangi</span>
+                </div>
+            </div>
+
+            <div class="activity-card" data-tags="free toddlers kids outdoors ongoing">
+                <span class="card-tag tag-outdoors">Outdoors</span>
+                <h3>Jacob Ballas Children's Garden</h3>
+                <div class="card-meta">Singapore Botanic Gardens &middot; Ongoing</div>
+                <div class="card-desc">The reopened water play area features a mega splash bucket, mist arch, umbrella rain fountains, water jets, and a shallow pool. Bring a change of clothes!</div>
+                <div class="card-footer">
+                    <span class="age-badge">Ages 0&ndash;12</span>
+                    <span class="price free">Free</span>
+                    <span class="source">littledayout</span>
+                </div>
+            </div>
+
+            <div class="activity-card" data-tags="free kids indoor ongoing">
+                <span class="card-tag tag-arts">Arts</span>
+                <h3>Keppel Centre for Art Education</h3>
+                <div class="card-meta">National Gallery Singapore &middot; Ongoing</div>
+                <div class="card-desc">Free art haven where kids can paint giant walls and build bamboo creations. The Children's Biennale runs into 2026 with touchable, interactive art.</div>
+                <div class="card-footer">
+                    <span class="age-badge">Ages 4+</span>
+                    <span class="price free">Free</span>
+                    <span class="source">honeykidsasia</span>
+                </div>
+            </div>
+
+            <div class="activity-card" data-tags="free kids indoor weekend-only">
+                <span class="card-tag tag-workshop">Workshop</span>
+                <h3>Gundam Base Workshops</h3>
+                <div class="card-meta">Jewel Changi Airport &middot; Weekends</div>
+                <div class="card-desc">Free Gunpla-building workshops every weekend. Kids can assemble simple Gundam models with no prior experience — perfect for model-building first-timers.</div>
+                <div class="card-footer">
+                    <span class="age-badge">Ages 6+</span>
+                    <span class="price free">Free</span>
+                    <span class="source">honeykidsasia</span>
+                </div>
+            </div>
+
+            <div class="activity-card" data-tags="toddlers kids outdoors ongoing">
+                <span class="card-tag tag-outdoors">Outdoors</span>
+                <h3>Bollywood Farms Padi Planting</h3>
+                <div class="card-meta">Kranji Countryside &middot; Ongoing</div>
+                <div class="card-desc">Educational workshop where kids plant rice saplings and learn about rice production. A rare chance to get muddy and connect with Singapore's farming heritage.</div>
+                <div class="card-footer">
+                    <span class="age-badge">Ages 4+</span>
+                    <span class="price">From $15</span>
+                    <span class="source">bykido</span>
+                </div>
+            </div>
+
+            <div class="activity-card" data-tags="toddlers indoor ongoing">
+                <span class="card-tag tag-workshop">Play</span>
+                <h3>Wan To Play Sky Castle</h3>
+                <div class="card-meta">Tai Seng &middot; Ongoing</div>
+                <div class="card-desc">6.25-metre LED-lit mega slide plus a toddler-friendly upper level with smaller slides and toy cars. Huge, bright, and endlessly photogenic.</div>
+                <div class="card-footer">
+                    <span class="age-badge">Ages 1&ndash;10</span>
+                    <span class="price">From $15</span>
+                    <span class="source">sunnycitykids</span>
+                </div>
+            </div>
+
+            <div class="activity-card" data-tags="toddlers kids indoor ongoing">
+                <span class="card-tag tag-workshop">Play</span>
+                <h3>Buds by Shangri-La</h3>
+                <div class="card-meta">Shangri-La Hotel &middot; Ongoing</div>
+                <div class="card-desc">Massive ball pit, slides, trampolines, and a dedicated baby and toddler soft play area. A premium indoor play option with plush finishes.</div>
+                <div class="card-footer">
+                    <span class="age-badge">Ages 0&ndash;10</span>
+                    <span class="price">From $48</span>
+                    <span class="source">sassymamasg</span>
                 </div>
             </div>
 
@@ -825,6 +991,27 @@
             target.scrollIntoView({ behavior: 'smooth', block: 'center' });
             target.style.boxShadow = '0 0 0 3px var(--c-brand)';
             setTimeout(() => { target.style.boxShadow = ''; }, 1500);
+        });
+    });
+
+    // Filter chips
+    const chips = document.querySelectorAll('.filter-chip');
+    const activityCards = document.querySelectorAll('.activity-card');
+
+    chips.forEach(chip => {
+        chip.addEventListener('click', () => {
+            chips.forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            const filter = chip.getAttribute('data-filter');
+
+            activityCards.forEach(card => {
+                if (filter === 'all') {
+                    card.classList.remove('hidden');
+                } else {
+                    const tags = (card.getAttribute('data-tags') || '').split(' ');
+                    card.classList.toggle('hidden', !tags.includes(filter));
+                }
+            });
         });
     });
     </script>
